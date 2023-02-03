@@ -7,7 +7,7 @@ export default function Navbar() {
     <div>
       <header class="bg-slate-300 text-gray-700 body-font">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <a href="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
             <img src={tiffin} alt="logo" className="logo h-12" />
             <span class="ml-3 text-xl">Tiffin</span>
           </a>
