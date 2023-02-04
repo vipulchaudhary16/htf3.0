@@ -8,14 +8,14 @@ export default function ProviderDashboard() {
     <div>
       {localStorage.getItem("provider") ? (
         <>
-          <div class="container px-5 py-6 mx-auto">
-            <div class="flex flex-wrap w-full">
-              <div class="lg:w-1/2 w-full lg:mb-0">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+          <div className="container px-5 py-6 mx-auto">
+            <div className="flex flex-wrap w-full">
+              <div className="lg:w-1/2 w-full lg:mb-0">
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
                   Name: Lorem ipsum dolor sit.
                 </h1>
               </div>
-              <p class="lg:w-1/2 w-full  text-gray-500">
+              <p className="lg:w-1/2 w-full  text-gray-500">
                 address: Lorem ipsum, dolor sit amet consectetur adipisicing
                 elit. Atque, vero.
               </p>
