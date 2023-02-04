@@ -10,7 +10,7 @@ export default function Profile() {
         setUser(res);
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   }, []);
   return (

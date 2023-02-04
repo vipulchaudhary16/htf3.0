@@ -24,6 +24,7 @@ function Login() {
     await account
       .create(uuidv4(), provider.email, provider.password, provider.name)
       .then((res) => {
+        provider.UID = res.$id;
         databases
           .createDocument(
             REACT_APP_APPWRITE_DB,
@@ -32,30 +33,32 @@ function Login() {
             provider
           )
           .then((resDB) => {
-            databases.createDocument(
-              REACT_APP_APPWRITE_DB,
-              REACT_APP_ROL_COL,
-              uuidv4(),
-              {
-                email: provider.email,
-                role: "provider",
-              }
-            ).then((resDB) => {
-              console.log("Added to DB");
-            }).catch((error) => {
-              console.log(error);
-            });
+            databases
+              .createDocument(
+                REACT_APP_APPWRITE_DB,
+                REACT_APP_ROL_COL,
+                uuidv4(),
+                {
+                  email: provider.email,
+                  role: "provider",
+                }
+              )
+              .then((resDB) => {
+                navigate("/login");
+              })
+              .catch((error) => {
+                alert(error);
+              });
           })
           .catch((error) => {
-            console.log(error);
+            alert(error);
           });
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
-  console.log(provider);
 
   return (
     <>

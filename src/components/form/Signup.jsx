@@ -49,18 +49,18 @@ function Login() {
                 }
               )
               .then((resDB) => {
-                console.log("Added to DB");
+                navigate("/login")
               })
               .catch((error) => {
-                console.log(error);
+                alert(error);
               });
           })
           .catch((error) => {
-            console.log(error);
+            alert(error);
           });
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 

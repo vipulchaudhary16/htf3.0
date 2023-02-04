@@ -3,8 +3,11 @@ import "./navbar.css";
 import tiffin from "../../assests/tiffin.png";
 import { Link, useNavigate } from "react-router-dom";
 import { account } from "../../appwrite/AppWriteConfig";
+import userContext from "../../context/userContext";
+
 export default function Navbar() {
   const [isLoogedIn, setIsLoggedIn] = React.useState(false);
+  const { setUser } = React.useContext(userContext);
   useEffect(() => {
     const getData = account.get();
     getData
@@ -26,6 +29,7 @@ export default function Navbar() {
             <img src={tiffin} alt="logo" className="logo h-12" />
             <span className="ml-3 text-xl">Tiffin</span>
           </a>
+          
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <Link to="/signup-admin">
               <a className="mr-5 hover:text-gray-900 cursor-pointer">
@@ -76,6 +80,8 @@ export default function Navbar() {
                 className="inline-flex text-white items-center bg-red-700 border-0 py-1 mx-2 px-3 focus:outline-none rounded text-base mt-4 md:mt-0"
                 onClick={async () => {
                   await account.deleteSession("current");
+                  setUser(null);
+                  localStorage.setItem("email", "")
                   window.location.reload();
                 }}
               >

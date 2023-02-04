@@ -1,6 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { account, databases } from "../../appwrite/AppWriteConfig";
+import {
+  REACT_APP_APPWRITE_DB,
+  REACT_APP_ITEMS_COL,
+  REACT_APP_ORDER_COL,
+} from "../../appwrite/IDs";
+import { v4 as uuid4 } from "uuid";
 
 function Checkout() {
+  const { item_id } = useParams();
+  const [item, setItem] = useState({});
+  const [order, setOrder] = useState({});
+  const [costing, setCosting] = useState({
+    subtotal: 0,
+    shipingTax: 10,
+  });
+
+  useEffect(() => {
+    loadItem();
+  }, []);
+
+  const loadItem = async () => {
+    await databases
+      .listDocuments(REACT_APP_APPWRITE_DB, REACT_APP_ITEMS_COL)
+      .then((res) => {
+        res.documents.forEach((docs) => {
+          if (docs.UID == item_id) {
+            setItem(docs);
+            setCosting({ ...costing, subtotal: docs.price_one });
+          }
+        });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    order.order_id = uuid4();
+    order.item_id = item_id;
+    order.order_to = item.provider_name;
+    order.price = eval(costing.subtotal * 1 + costing.shipingTax);
+    order.payment_method = "COD";
+    account
+      .get()
+      .then((res) => {
+        order.order_by = res.$id;
+        databases
+          .createDocument(
+            REACT_APP_APPWRITE_DB,
+            REACT_APP_ORDER_COL,
+            uuid4(),
+            order
+          )
+          .then((res) => {
+            alert("Order Placed");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  // console.log(item);
+  // console.log(costing);
+
   return (
     <>
       <div className="container p-12 mx-auto">
@@ -9,7 +78,13 @@ function Checkout() {
             <h2 className="mb-4 font-bold md:text-xl text-heading ">
               Shipping Address
             </h2>
-            <form className="justify-center w-full mx-auto" method="post" action>
+            <form
+              className="justify-center w-full mx-auto"
+              method="post"
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+            >
               <div className="">
                 <div className="space-x-0 lg:flex lg:space-x-4">
                   <div className="w-full lg:w-1/2">
@@ -23,6 +98,9 @@ function Checkout() {
                       name="firstName"
                       type="text"
                       placeholder="First Name"
+                      onChange={(e) =>
+                        setOrder({ ...order, firstName: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -37,6 +115,9 @@ function Checkout() {
                       name="lastName"
                       type="text"
                       placeholder="Last Name"
+                      onChange={(e) =>
+                        setOrder({ ...order, lastName: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -53,6 +134,9 @@ function Checkout() {
                       name="email"
                       type="text"
                       placeholder="Email"
+                      onChange={(e) =>
+                        setOrder({ ...order, email: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -67,6 +151,9 @@ function Checkout() {
                       name="phone"
                       type="text"
                       placeholder="Phone"
+                      onChange={(e) =>
+                        setOrder({ ...order, phone: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -85,6 +172,9 @@ function Checkout() {
                       cols="20"
                       rows="4"
                       placeholder="Address"
+                      onChange={(e) =>
+                        setOrder({ ...order, address: e.target.value })
+                      }
                     ></textarea>
                   </div>
                 </div>
@@ -100,20 +190,26 @@ function Checkout() {
                       name="city"
                       type="text"
                       placeholder="City"
+                      onChange={(e) =>
+                        setOrder({ ...order, city: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
                   <div className="w-full lg:w-1/2 mt-4 md:mt-0">
                     <label
-                      for="postcode"
+                      for="pincode"
                       className="block mb-1 text-sm font-semibold text-gray-500"
                     >
-                      Postcode
+                      Pincode
                     </label>
                     <input
-                      name="postcode"
+                      name="pincode"
                       type="text"
                       placeholder="Post Code"
+                      onChange={(e) =>
+                        setOrder({ ...order, pincode: e.target.value })
+                      }
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -134,7 +230,6 @@ function Checkout() {
                     for="note"
                     className="block mb-3 text-sm font-semibold text-gray-500"
                   >
-                    {" "}
                     Notes (Optional)
                   </label>
                   <textarea
@@ -142,12 +237,39 @@ function Checkout() {
                     className="flex items-center w-full px-4 py-3 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600"
                     rows="4"
                     placeholder="Notes for delivery"
+                    onChange={(e) =>
+                      setOrder({ ...order, notes: e.target.value })
+                    }
                   ></textarea>
                 </div>
+                <div className="flex items-center mt-4">
+                  <label className="flex items-center text-sm group text-heading">
+                    <input
+                      type="checkbox"
+                      className="w-5 h-5 border border-gray-300 rounded focus:outline-none focus:ring-1"
+                      onChange={(e) => {
+                        setOrder({ ...order, isMonthly: e.target.checked });
+                        if (e.target.checked) {
+                          setCosting({
+                            subtotal: item.price_monthly,
+                            shipingTax: 0,
+                          });
+                        } else {
+                          setCosting({ subtotal:item.price_one, shipingTax: 10 });
+                        }
+                      }}
+                    />
+                    <span className="ml-2">
+                      Is this Monthly repeating order?
+                    </span>
+                  </label>
+                </div>
                 <div className="mt-4">
-                  <button className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900">
-                    Proceed to Payment
-                  </button>
+                  <input
+                    value={"Confirm Order"}
+                    type="submit"
+                    className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
+                  ></input>
                 </div>
               </div>
             </form>
@@ -223,13 +345,18 @@ function Checkout() {
                 <h2 className="text-xl font-bold">ITEMS: 2</h2>
               </div>
               <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Subtotal:<span className="ml-2">$40.00</span>
+                Subtotal:<span className="ml-2">{costing.subtotal} rupees</span>
               </div>
               <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Shipping Tax:<span className="ml-2">$10</span>
+                Shipping Tax:
+                <span className="ml-2">{costing.shipingTax} rupees</span>
               </div>
               <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Total:<span className="ml-2">$50.00</span>
+                Total:
+                <span className="ml-2">
+                  {eval(costing.subtotal * 1 + costing.shipingTax) + " "}
+                  rupees
+                </span>
               </div>
             </div>
           </div>

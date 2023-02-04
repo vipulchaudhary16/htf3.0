@@ -23,7 +23,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/me" element={<Profile />} />
           <Route path="/signup-admin" element={<SignUp />} />
-          <Route path="/checkout" element={<Checkout/>} />
+          <Route path="/checkout/:item_id" element={<Checkout/>} />
         </Routes>
       </BrowserRouter>
     </div>

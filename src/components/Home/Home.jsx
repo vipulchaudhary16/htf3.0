@@ -1,17 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { databases } from "../../appwrite/AppWriteConfig";
 import {
   REACT_APP_APPWRITE_DB,
   REACT_APP_PROVIDERS_COL,
+  REACT_APP_ROL_COL,
 } from "../../appwrite/IDs";
 import { v4 as uuidv4 } from "uuid";
 
 function Home() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    databases
+      .listDocuments(REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL)
+      .then((resDB) => {
+        resDB.documents.forEach((doc) => {
+          if (doc.email == localStorage.getItem("email")) {
+            if (doc.role == "provider") {
+              navigate("/admin");
+              return 1;
+            } else {
+              return 0;
+            }
+          }
+        });
+      });
     loadProviders();
   }, []);
 
@@ -23,7 +39,7 @@ function Home() {
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 

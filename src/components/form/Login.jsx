@@ -1,31 +1,38 @@
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { account, databases } from "../../appwrite/AppWriteConfig";
 import { REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL } from "../../appwrite/IDs";
+import userContext from "../../context/userContext";
 
 function Login() {
+  const context = useContext(userContext);
+  const { user, setUser } = context;
   const navigate = useNavigate();
-  const [user, setUser] = useState({
+  const [fetchedUser, setFetchedUser] = useState({
     email: "",
     password: "",
   });
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       account
-        .createEmailSession(user.email, user.password)
+        .createEmailSession(fetchedUser.email, fetchedUser.password)
         .then((res) => {
+          user.email = fetchedUser.email;
           databases
             .listDocuments(REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL)
             .then((resDB) => {
-              console.log(resDB);
+              localStorage.setItem("email", fetchedUser.email);
+          
               resDB.documents.forEach((doc) => {
-                console.log(doc);
-                if (doc.email == user.email) {
+                if (doc.email == fetchedUser.email) {
                   if (doc.role === "provider") {
+                    user.role = "provider";
                     navigate("/admin");
                   } else {
+                    user.role = "user";
                     navigate("/");
                   }
                 }
@@ -33,10 +40,10 @@ function Login() {
             });
         })
         .catch((error) => {
-          console.log(error);
+          alert(error);
         });
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   return (
@@ -62,7 +69,9 @@ function Login() {
                 type="email"
                 id="email"
                 name="email"
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onChange={(e) =>
+                  setFetchedUser({ ...fetchedUser, email: e.target.value })
+                }
                 className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
@@ -77,7 +86,9 @@ function Login() {
                 type="password"
                 id="password"
                 name="password"
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                onChange={(e) =>
+                  setFetchedUser({ ...fetchedUser, password: e.target.value })
+                }
                 className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
