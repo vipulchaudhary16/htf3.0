@@ -9,6 +9,7 @@ import Signup from "./components/form/Signup";
 import Checkout from "./components/checkout/Checkout";
 import Profile from "./components/Profile/Profile";
 import SignUp from "./components/Admin/SignUp";
+import Footer from "./components/footer/Footer";
 import Error404 from "./components/Error404";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/checkout/:item_id" element={<Checkout/>} />
           <Route path="*" element={<Error404/>} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </div>
   );

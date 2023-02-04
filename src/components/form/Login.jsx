@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { account, databases } from "../../appwrite/AppWriteConfig";
 import { REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL } from "../../appwrite/IDs";
 import userContext from "../../context/userContext";
+import './login.css';
 
 function Login() {
   const context = useContext(userContext);
@@ -48,10 +49,10 @@ function Login() {
   };
   return (
     <>
-      <section>
+      <section className="m-12">
         <div className="container px-5 py-24 mx-auto">
           <form
-            className="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:mx-auto w-full mt-10 md:mt-0 relative z-10 shadow-md"
+            className="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:mx-auto w-full mt-10 md:mt-0 relative z-10 shadow-md card-shadow"
             method="POST"
             onSubmit={(e) => handleSubmit(e)}
           >
@@ -92,10 +93,10 @@ function Login() {
                 className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
-            <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+            <button className="text-white mt-3 py-2 px-6 focus:outline-none rounded text-base btn-primary-solid">
               <input type="submit" value={"LOGIN"}/>
             </button>
-            <p className="text-xs text-gray-500 mt-4">
+            <p className="text-xs text-gray-500 mt-4 text-center">
               Don't have an account?
               <a className="text-indigo-500 inline-flex items-center ml-1">
                 <Link to="/signup">Sign Up</Link>

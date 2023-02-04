@@ -48,6 +48,11 @@
     color: #808EFF;
 }
 
+/* Common Shadow CSS */
+.card-shadow{
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.06);
+}
+
 /* Error CSS */
 
 /*======================

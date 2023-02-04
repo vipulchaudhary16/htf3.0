@@ -172,9 +172,9 @@ function Login() {
               </div>
               <div className="p-2 w-full">
                 <input
-                  value={"Submit"}
+                  value={"Sign up"}
                   type="submit"
-                  className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                  className="flex mx-auto text-white py-2 px-8 rounded text-lg btn-primary-solid"
                 ></input>
               </div>
             </form>
