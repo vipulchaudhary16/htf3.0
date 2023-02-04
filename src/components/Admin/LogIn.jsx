@@ -1,8 +1,6 @@
-import { Query } from "appwrite";
 import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { account, databases } from "../../appwrite/AppWriteConfig";
-import { REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL } from "../../appwrite/IDs";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,32 +11,22 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      account
-        .createEmailSession(user.email, user.password)
-        .then((res) => {
-          databases
-            .listDocuments(REACT_APP_APPWRITE_DB, REACT_APP_ROL_COL)
-            .then((resDB) => {
-              console.log(resDB);
-              resDB.documents.forEach((doc) => {
-                console.log(doc);
-                if (doc.email == user.email) {
-                  if (doc.role === "provider") {
-                    navigate("/admin");
-                  } else {
-                    navigate("/");
-                  }
-                }
-              });
-            });
-        })
-        .catch((error) => {
-          console.log(error);
+    await databases
+      .listDocuments(
+        "63dd818f4f817802cec8", // database id
+        "63ddf235614c7c54c3fa" // collection id
+      )
+      .then((res) => {
+        console.log(res.documents);
+        const docs = res.documents;
+        docs.forEach((doc) => {
+          if (doc.email === user.email && doc.password === user.password) {
+            console.log("Login Success");
+            localStorage.setItem("provider", JSON.stringify(doc.$id));
+            navigate("/admin");
+          }
         });
-    } catch (error) {
-      console.log(error);
-    }
+      });
   };
   return (
     <>

@@ -1,0 +1,4 @@
+export const REACT_APP_APPWRITE_DB = '63de28d775bc00379e66'
+export const REACT_APP_USERS_COL = '63de28df6ee07e534a08'
+export const REACT_APP_PROVIDERS_COL = '63de29f8cc7692f356d2'
+export const REACT_APP_ROL_COL = '63de2ac34a5904e831c8'

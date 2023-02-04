@@ -4,16 +4,15 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import {
   REACT_APP_APPWRITE_DB,
+  REACT_APP_PROVIDERS_COL,
   REACT_APP_ROL_COL,
-  REACT_APP_USERS_COL,
 } from "../../appwrite/IDs";
 
 function Login() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
+  const [provider, setProvider] = useState({
     UID: "",
-    fname: "",
-    lname: "",
+    name: "",
     email: "",
     password: "",
     phone: "",
@@ -23,37 +22,29 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await account
-      .create(
-        uuidv4(),
-        user.email,
-        user.password,
-        user.fname + " " + user.lname
-      )
+      .create(uuidv4(), provider.email, provider.password, provider.name)
       .then((res) => {
         databases
           .createDocument(
             REACT_APP_APPWRITE_DB,
-            REACT_APP_USERS_COL,
+            REACT_APP_PROVIDERS_COL,
             uuidv4(),
-            user
+            provider
           )
           .then((resDB) => {
-            databases
-              .createDocument(
-                REACT_APP_APPWRITE_DB,
-                REACT_APP_ROL_COL,
-                uuidv4(),
-                {
-                  email: user.email,
-                  role: "user",
-                }
-              )
-              .then((resDB) => {
-                console.log("Added to DB");
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            databases.createDocument(
+              REACT_APP_APPWRITE_DB,
+              REACT_APP_ROL_COL,
+              uuidv4(),
+              {
+                email: provider.email,
+                role: "provider",
+              }
+            ).then((resDB) => {
+              console.log("Added to DB");
+            }).catch((error) => {
+              console.log(error);
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -63,6 +54,8 @@ function Login() {
         console.log(error);
       });
   };
+
+  console.log(provider);
 
   return (
     <>
@@ -79,39 +72,20 @@ function Login() {
               method="POST"
               onSubmit={(e) => handleSubmit(e)}
             >
-              <div className="p-2 w-1/2">
+              <div className="p-2 w-full">
                 <div className="relative">
                   <label
-                    htmlFor="fname"
+                    htmlFor="name"
                     className="leading-7 text-sm text-gray-600 text-left block"
                   >
-                    First Name
+                    Name
                   </label>
                   <input
                     type="text"
-                    id="fname"
-                    name="fname"
+                    id="name"
+                    name="name"
                     onChange={(e) =>
-                      setUser({ ...user, fname: e.target.value })
-                    }
-                    className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-              </div>
-              <div className="p-2 w-1/2">
-                <div className="relative">
-                  <label
-                    htmlFor="lname"
-                    className="leading-7 text-sm text-gray-600 text-left block"
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lname"
-                    name="lname"
-                    onChange={(e) =>
-                      setUser({ ...user, lname: e.target.value })
+                      setProvider({ ...provider, name: e.target.value })
                     }
                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
@@ -130,7 +104,7 @@ function Login() {
                     id="email"
                     name="email"
                     onChange={(e) =>
-                      setUser({ ...user, email: e.target.value })
+                      setProvider({ ...provider, email: e.target.value })
                     }
                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
@@ -149,7 +123,7 @@ function Login() {
                     id="password"
                     name="password"
                     onChange={(e) =>
-                      setUser({ ...user, password: e.target.value })
+                      setProvider({ ...provider, password: e.target.value })
                     }
                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
@@ -168,7 +142,7 @@ function Login() {
                     id="phoneNumber"
                     name="phoneNumber"
                     onChange={(e) =>
-                      setUser({ ...user, phone: e.target.value })
+                      setProvider({ ...provider, phone: e.target.value })
                     }
                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
@@ -186,7 +160,7 @@ function Login() {
                     id="address"
                     name="address"
                     onChange={(e) =>
-                      setUser({ ...user, address: e.target.value })
+                      setProvider({ ...provider, address: e.target.value })
                     }
                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
                     defaultValue={""}
