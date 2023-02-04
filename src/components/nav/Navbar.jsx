@@ -82,6 +82,7 @@ export default function Navbar() {
                   await account.deleteSession("current");
                   setUser(null);
                   localStorage.setItem("email", "")
+                  localStorage.setItem("provider", "")
                   window.location.reload();
                 }}
               >
