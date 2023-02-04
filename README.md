@@ -34,7 +34,7 @@ We are planing to complete add features like user rating, payment gateway, and h
 
 - [@Vipul Chaudhary](https://github.com/vipulchaudhary16)
 - [@Rushi Thakkar](https://github.com/Ruc08)
-- [@Pathik Shah]('https://github.com/pathik455')
+- [@Pathik Shah](https://github.com/pathik455)
 
 
 ## Deployment
