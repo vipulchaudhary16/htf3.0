@@ -6,18 +6,20 @@ import Navbar from "./components/nav/Navbar";
 import Provider from "./components/Provider/Provider";
 import Login from "./components/form/Login";
 import Signup from "./components/form/Signup";
+import Checkout from "./components/checkout/Checkout";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
       <BrowserRouter>
+      <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/admin" element={<ProviderDashboard />}></Route>
           <Route path="/providers/:name" element={<Provider />} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
+          <Route path="/checkout" element={<Checkout/>} />
         </Routes>
       </BrowserRouter>
     </div>
