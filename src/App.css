@@ -1,0 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.App{
+    font-family: 'League Spartan', sans-serif;
+    background-color: #F5F6FB;
+}
+
+
+.bg-color{
+    background-color: #808EFF;
+}
+
+/* Button CSS */
+.btn-outline{
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-outline:hover{
+    background-color: white;
+    color: #808EFF;
+    color: black;
+}
+
+.btn-secondary{
+    border: 1px solid #808EFF;
+    color: #808EFF;
+}
+.btn-secondary:hover{
+    background-color: #808EFF;
+    color: white;
+}
+
+.btn-primary-solid{
+    background-color: #808EFF;
+    border: 1px solid #808EFF;
+    color: white;
+}
+.btn-primary-solid:hover{
+    background-color: transparent;
+    color: #808EFF;
+}
+
+/* Text CSS */
+.text-primary-color{
+    color: #808EFF;
+}
