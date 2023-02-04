@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProviderDashboard from "./components/Admin/ProviderDashboard";
 import Home from "./components/Home/Home";
@@ -9,6 +9,7 @@ import Signup from "./components/form/Signup";
 import Checkout from "./components/checkout/Checkout";
 import Profile from "./components/Profile/Profile";
 import SignUp from "./components/Admin/SignUp";
+import Error404 from "./components/Error404";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/me" element={<Profile />} />
           <Route path="/signup-admin" element={<SignUp />} />
           <Route path="/checkout/:item_id" element={<Checkout/>} />
+          <Route path="*" element={<Error404/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { databases } from "../../appwrite/AppWriteConfig";
+import { account, databases } from "../../appwrite/AppWriteConfig";
 import {
   REACT_APP_APPWRITE_DB,
   REACT_APP_ITEMS_COL,
@@ -10,6 +10,7 @@ import {
 
 import { v4 as uuid4 } from "uuid";
 import Order from "./Order";
+import { useNavigate } from "react-router-dom";
 
 export default function ProviderDashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,8 +23,16 @@ export default function ProviderDashboard() {
     provider_name: provider,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (localStorage.getItem("provider") == null) {
+    account
+      .get()
+      .then((res) => {})
+      .catch((error) => {
+        navigate("/login");
+      });
+    if (!localStorage.getItem("provider")) {
       loadName();
     }
     loadOrders();
@@ -214,6 +223,7 @@ export default function ProviderDashboard() {
           })}
         </div>
       </div>
+      
       <p className="text-3xl text-center">OneTime Orders</p>
       <div className="flex">
         <div className="flex flex-wrap justify-center">

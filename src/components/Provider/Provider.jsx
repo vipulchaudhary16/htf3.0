@@ -31,18 +31,21 @@ const Provider = () => {
         alert(error);
         setLoading(false);
       });
-      console.log(fetchedData);
+    console.log(fetchedData);
   };
   return (
-    <div>
-      <h1 className="text-2xl m-4 bold font-mono">
+    <div className="min-h-screen	">
+      <h1 className="my-10 text-2xl md:text-4xl m-4 bold text-center">
         Tiffins provided by {name}
       </h1>
-      <section class="text-gray-600 body-font overflow-hidden flex flex-wrap justify-center">
+      <section class="text-gray-600 body-font overflow-hidden flex flex-wrap justify-center ">
         {loading == false ? (
           fetchedData.map((item) => {
             return (
-              <div class="p-6 m-4 rounded-lg border-2 overflow-hidden" key={item.UID}>
+              <div
+                class="p-6 m-4 rounded-lg border-2 overflow-hidden"
+                key={item.UID}
+              >
                 {/* <span class="bg-blue-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">
                       POPULAR
                     </span> */}
@@ -55,42 +58,34 @@ const Provider = () => {
                     /1 Tiffin
                   </span>
                 </h1>
-                {item.what_is_inside.split(",").map((ing) => {
-                  return (
-                    <p class="flex items-center text-gray-600 mb-2">
-                      <span class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-                        <svg
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2.5"
-                          class="w-3 h-3"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M20 6L9 17l-5-5"></path>
-                        </svg>
-                      </span>
-                      {ing}
-                    </p>
-                  );
-                })}
+                <div className="h-32">
+                  {item.what_is_inside.split(",").map((ing) => {
+                    return (
+                      <p class="flex items-center text-gray-600 mb-2">
+                        <span class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            class="w-3 h-3"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M20 6L9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                        {ing}
+                      </p>
+                    );
+                  })}
+                </div>
                 <Link to={`/checkout/${item.UID}`}>
-                  <button class="flex items-center mt-auto text-white bg-blue-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-blue-600 rounded m-2 mt-8">
+                  <button class="text-center mt-auto text-white bg-blue-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-blue-600 rounded mt-8 btn-primary-solid rounded text-center py-2">
                     Order Now
-                    <svg
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      class="w-4 h-4 ml-auto"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
                   </button>
                 </Link>
+
                 {/* <button class="flex items-center mt-auto text-white bg-blue-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-blue-600 rounded m-2">
                   Monthly Order
                   <svg

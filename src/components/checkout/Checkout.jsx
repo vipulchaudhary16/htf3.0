@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { account, databases } from "../../appwrite/AppWriteConfig";
 import {
   REACT_APP_APPWRITE_DB,
@@ -9,6 +9,7 @@ import {
 import { v4 as uuid4 } from "uuid";
 
 function Checkout() {
+  const navigate = useNavigate( )
   const { item_id } = useParams();
   const [item, setItem] = useState({});
   const [order, setOrder] = useState({});
@@ -19,6 +20,7 @@ function Checkout() {
 
   useEffect(() => {
     loadItem();
+    account.get().then((res) => {}).catch((error) => {navigate('/login')})
   }, []);
 
   const loadItem = async () => {
@@ -63,7 +65,7 @@ function Checkout() {
           });
       })
       .catch((error) => {
-        alert(error);
+        alert("Need to Login");
       });
   };
 
@@ -101,6 +103,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, firstName: e.target.value })
                       }
+                      required
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -137,6 +140,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, email: e.target.value })
                       }
+                      required
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -154,6 +158,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, phone: e.target.value })
                       }
+                      required
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -175,6 +180,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, address: e.target.value })
                       }
+                      required
                     ></textarea>
                   </div>
                 </div>
@@ -193,6 +199,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, city: e.target.value })
                       }
+                      required
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -210,6 +217,7 @@ function Checkout() {
                       onChange={(e) =>
                         setOrder({ ...order, pincode: e.target.value })
                       }
+                      required
                       className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                     />
                   </div>
@@ -255,7 +263,10 @@ function Checkout() {
                             shipingTax: 0,
                           });
                         } else {
-                          setCosting({ subtotal:item.price_one, shipingTax: 10 });
+                          setCosting({
+                            subtotal: item.price_one,
+                            shipingTax: 10,
+                          });
                         }
                       }}
                     />
@@ -264,11 +275,11 @@ function Checkout() {
                     </span>
                   </label>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 text-center mt-auto text-white bg-blue-700 border-0 py-2 px-4 w-full focus:outline-none hover:bg-blue-600 rounded mt-8 btn-primary-solid rounded text-center py-2 cursor-pointer">
                   <input
                     value={"Confirm Order"}
                     type="submit"
-                    className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
+                    className="cursor-pointer"
                   ></input>
                 </div>
               </div>
@@ -277,73 +288,7 @@ function Checkout() {
           <div className="flex flex-col w-full ml-0 mb-7 lg:ml-12 lg:w-2/5">
             <div className="pt-12 md:pt-0 2xl:ps-4">
               <h2 className="text-xl font-bold">Order Summary</h2>
-              <div className="mt-8">
-                <div className="flex flex-col space-y-4">
-                  <div className="flex space-x-4">
-                    <div>
-                      <img
-                        src="https://source.unsplash.com/user/erondu/1600x900"
-                        alt="image"
-                        className="w-60 rounded"
-                      />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold">Item</h2>
-                      <p className="text-sm">Service provider</p>
-                      <span className="text-red-600">Price</span> $20
-                    </div>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="flex space-x-4">
-                    <div>
-                      <img
-                        src="https://source.unsplash.com/collection/190727/1600x900"
-                        alt="image"
-                        className="w-60 rounded"
-                      />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold">Item</h2>
-                      <p className="text-sm">Service provider</p>
-                      <span className="text-red-600">Price</span> $20
-                    </div>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex p-4 mt-4">
-                <h2 className="text-xl font-bold">ITEMS: 2</h2>
-              </div>
+
               <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
                 Subtotal:<span className="ml-2">{costing.subtotal} rupees</span>
               </div>
