@@ -6,6 +6,7 @@ import Navbar from "./components/nav/Navbar";
 import Provider from "./components/Provider/Provider";
 import Login from "./components/form/Login";
 import Signup from "./components/form/Signup";
+import Checkout from "./components/checkout/Checkout";
 import Profile from "./components/Profile/Profile";
 import SignUp from "./components/Admin/SignUp";
 import LogIn from "./components/Admin/LogIn";
@@ -14,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+      <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/admin" element={<ProviderDashboard />}></Route>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/me" element={<Profile />} />
           <Route path="/signup-admin" element={<SignUp />} />
           <Route path="/login-admin" element={<LogIn />} />
+          <Route path="/checkout" element={<Checkout/>} />
         </Routes>
       </BrowserRouter>
     </div>
