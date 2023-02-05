@@ -42,7 +42,7 @@ export default function Navbar() {
           {isLoogedIn == false ? (
             <>
               <Link to="/login">
-                <button className="inline-flex items-center bg-gray-100 border-0 py-2 px-5 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 btn-outline">
+                <button className="inline-flex items-center py-2 px-5 rounded text-base mt-4 md:mt-0 btn-outline">
                   Login
                   <svg
                     fill="none"
@@ -59,7 +59,7 @@ export default function Navbar() {
               </Link>
 
               <Link to="/signup">
-                <button className="inline-flex items-center bg-gray-100 border-0 py-2 mx-2 px-5 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 btn-outline">
+                <button className="inline-flex items-center py-2 mx-2 px-5 rounded text-base mt-4 md:mt-0 btn-outline">
                   SignUp
                   <svg
                     fill="none"
