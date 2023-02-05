@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../../App.css';
 import './home.css';
@@ -8,7 +8,6 @@ import {
   REACT_APP_PROVIDERS_COL,
   REACT_APP_ROL_COL,
 } from "../../appwrite/IDs";
-import { v4 as uuidv4 } from "uuid";
 import HeroSection from "./HeroSection";
 
 function Home() {
